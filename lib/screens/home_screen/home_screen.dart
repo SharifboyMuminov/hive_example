@@ -120,8 +120,11 @@ class _HomeScreenState extends State<HomeScreen> {
                             onTab: () async {
                               if (state.allNotes[index].isRemove &&
                                   state.allNotes[index].id != null) {
-                                context.read<NotesBloc>().add(NotesDeleteEvent(
-                                    noteModel: state.allNotes[index]));
+                                context.read<NotesBloc>().add(
+                                      NotesDeleteEvent(
+                                        index: index,
+                                      ),
+                                    );
 
                                 showSearch = false;
                                 setState(() {});

@@ -5,6 +5,7 @@ import 'package:hive/hive.dart';
 import 'package:hive_example/blocs/notes/notes_event.dart';
 import 'package:hive_example/blocs/notes/notes_state.dart';
 import 'package:hive_example/data/models/from_status/from_status.dart';
+import 'package:hive_example/data/models/notes/notes_model.dart';
 
 class NotesBloc extends Bloc<NotesEvent, NotesState> {
   NotesBloc()
@@ -22,24 +23,67 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
     on<NotesInsertEvent>(_insertNote);
     on<NotesUpdateEvent>(_updateNote);
     on<NotesSearchEvent>(_searchNote);
-    hi = Hive.box("notes");
+    notesDataBase = Hive.box<NotesModel>("notes");
   }
 
-  late final Box hi;
+  late final Box notesDataBase;
 
   Future<void> _callNoteData(
       NotesCallEvent notesCallEvent, Emitter<NotesState> emit) async {
     emit(state.copyWith(fromStatus: FromStatus.loading));
+
+    try {
+      List<NotesModel> notesModels = notesDataBase.values.toList().cast();
+      emit(
+        state.copyWith(
+            fromStatus: FromStatus.success,
+            currentNotes: notesModels,
+            allNotes: notesModels),
+      );
+    } catch (error) {
+      emit(
+        state.copyWith(
+          fromStatus: FromStatus.error,
+          errorText: error.toString(),
+        ),
+      );
+    }
   }
 
   Future<void> _deleteNote(
       NotesDeleteEvent notesDeleteEvent, Emitter<NotesState> emit) async {
     emit(state.copyWith(fromStatus: FromStatus.loading));
+
+    try {
+      String key = notesDataBase.keyAt(notesDeleteEvent.index) as String? ?? "";
+
+      notesDataBase.delete(key);
+      add(NotesCallEvent());
+    } catch (error) {
+      emit(
+        state.copyWith(
+          fromStatus: FromStatus.error,
+          errorText: error.toString(),
+        ),
+      );
+    }
   }
 
   Future<void> _insertNote(
       NotesInsertEvent notesInsertEvent, Emitter<NotesState> emit) async {
     emit(state.copyWith(fromStatus: FromStatus.loading));
+
+    try {
+      notesDataBase.add(notesInsertEvent.noteModel);
+      add(NotesCallEvent());
+    } catch (error) {
+      emit(
+        state.copyWith(
+          fromStatus: FromStatus.error,
+          errorText: error.toString(),
+        ),
+      );
+    }
   }
 
   Future<void> _updateNote(

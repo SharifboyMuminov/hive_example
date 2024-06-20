@@ -55,7 +55,7 @@ class ItemNoteButton extends StatelessWidget {
                   Align(
                     alignment: Alignment.bottomRight,
                     child: Text(
-                      noteModel.date,
+                      noteModel.createDate,
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 14.sp,

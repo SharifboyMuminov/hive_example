@@ -3,7 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive_example/blocs/notes/notes_bloc.dart';
-import 'package:hive_example/screens/splesh/splash_screen.dart';
+import 'package:hive_example/blocs/notes/notes_event.dart';
+import 'package:hive_example/screens/splash/splash_screen.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -13,7 +14,7 @@ class App extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => NotesBloc(),
+          create: (_) => NotesBloc()..add(NotesCallEvent()),
         ),
       ],
       child: const MyApp(),
