@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:hive_example/screens/add_screen/widget/alert_item.dart';
+import 'package:hive_example/screens/widget/alert_item.dart';
 import 'package:hive_example/utils/app_colors.dart';
 import 'package:hive_example/utils/app_images.dart';
 import 'package:hive_example/utils/app_size.dart';

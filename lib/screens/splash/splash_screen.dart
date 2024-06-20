@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:hive_example/screens/home_screen/home_screen.dart';
+import 'package:hive_example/screens/notes/notes_screen.dart';
 import 'package:hive_example/utils/app_colors.dart';
 import 'package:hive_example/utils/app_size.dart';
 import 'package:lottie/lottie.dart';

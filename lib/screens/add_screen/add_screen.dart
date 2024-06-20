@@ -6,23 +6,24 @@ import 'package:hive_example/blocs/notes/notes_bloc.dart';
 import 'package:hive_example/blocs/notes/notes_event.dart';
 import 'package:hive_example/data/models/notes/notes_model.dart';
 import 'package:hive_example/screens/color/color_screen.dart';
+import 'package:hive_example/screens/dialogs/my_show_dialog.dart';
+import 'package:hive_example/screens/widget/my_snacbar.dart';
 import 'package:hive_example/screens/widget/top_button.dart';
 import 'package:hive_example/utils/app_colors.dart';
 import 'package:hive_example/utils/app_images.dart';
 import 'package:hive_example/utils/app_size.dart';
-
-import 'widget/my_snacbar.dart';
-import 'widget/show_dialog.dart';
 
 class AddScreen extends StatefulWidget {
   const AddScreen({
     super.key,
     this.personModel,
     this.isInfo = false,
+    this.index,
   });
 
   final bool isInfo;
   final NotesModel? personModel;
+  final int? index;
 
   @override
   State<AddScreen> createState() => _AddScreenState();
@@ -150,24 +151,6 @@ class _AddScreenState extends State<AddScreen> {
     );
   }
 
-  _myShowDialog(
-      {required VoidCallback onTabSave,
-      String title = "Do you want to save the information?"}) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertView(
-          onTabSave: onTabSave,
-          onTabDiscard: () {
-            Navigator.pop(context);
-            Navigator.pop(context);
-          },
-          title: title,
-        );
-      },
-    );
-  }
-
   _testMethodArrow() {
     String title = controllerTitle.text;
     String subTitle = controllerSubTitle.text;
@@ -175,7 +158,6 @@ class _AddScreenState extends State<AddScreen> {
       noteModel = noteModel.copyWith(
         fullName: controllerTitle.text,
         text: controllerSubTitle.text,
-        date: DateTime.now().toString(),
       );
 
       if (widget.personModel != null) {
@@ -183,33 +165,39 @@ class _AddScreenState extends State<AddScreen> {
             subTitle == widget.personModel!.text) {
           Navigator.pop(context);
         } else {
-          _myShowDialog(onTabSave: () {
-            noteModel.copyWith(
-              id: widget.personModel!.id,
-              fullName: title,
-              text: subTitle,
-            );
-            context
-                .read<NotesBloc>()
-                .add(NotesUpdateEvent(noteModel: noteModel));
-            muySnackBar(context, text: "Malumot ynagilandi :)");
-            Navigator.pop(context);
-            Navigator.pop(context);
-          });
+          myShowDialog(
+              context: context,
+              onTabSave: () {
+                noteModel.copyWith(
+                  fullName: title,
+                  text: subTitle,
+                );
+                context.read<NotesBloc>().add(
+                      NotesUpdateEvent(
+                        noteModel: noteModel,
+                        index: widget.index ?? 0,
+                      ),
+                    );
+                muySnackBar(context, text: "Malumot ynagilandi :)");
+                Navigator.pop(context);
+                Navigator.pop(context);
+              });
         }
       } else {
-        _myShowDialog(onTabSave: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) {
-                return ColorScreen(
-                  noteModel: noteModel,
-                );
-              },
-            ),
-          );
-        });
+        myShowDialog(
+            context: context,
+            onTabSave: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) {
+                    return ColorScreen(
+                      noteModel: noteModel,
+                    );
+                  },
+                ),
+              );
+            });
       }
     } else {
       Navigator.pop(context);

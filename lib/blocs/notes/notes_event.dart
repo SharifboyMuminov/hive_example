@@ -28,11 +28,12 @@ class NotesCallEvent extends NotesEvent {
 
 class NotesUpdateEvent extends NotesEvent {
   final NotesModel noteModel;
+  final int index;
 
-  NotesUpdateEvent({required this.noteModel});
+  NotesUpdateEvent({required this.noteModel, required this.index});
 
   @override
-  List<Object?> get props => [noteModel];
+  List<Object?> get props => [noteModel, index];
 }
 
 class NotesSearchEvent extends NotesEvent {

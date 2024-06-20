@@ -5,7 +5,7 @@ import 'package:hive_example/blocs/notes/notes_bloc.dart';
 import 'package:hive_example/blocs/notes/notes_event.dart';
 import 'package:hive_example/data/local/local_list/local.dart';
 import 'package:hive_example/data/models/notes/notes_model.dart';
-import 'package:hive_example/screens/home_screen/home_screen.dart';
+import 'package:hive_example/screens/notes/notes_screen.dart';
 import 'package:hive_example/utils/app_colors.dart';
 import 'package:hive_example/utils/app_size.dart';
 
@@ -36,6 +36,7 @@ class _ColorScreenState extends State<ColorScreen> {
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 10.we),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             80.getH(),
@@ -168,7 +169,7 @@ class _ColorScreenState extends State<ColorScreen> {
           "0.${sliderValue.toInt() < 10 ? "0" : ""}${sliderValue.toInt()}",
         ),
       ),
-      date: nowDate,
+      createDate: nowDate,
     );
     context.read<NotesBloc>().add(
           NotesInsertEvent(

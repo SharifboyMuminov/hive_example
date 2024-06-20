@@ -7,9 +7,9 @@ import 'package:hive_example/blocs/notes/notes_event.dart';
 import 'package:hive_example/blocs/notes/notes_state.dart';
 import 'package:hive_example/data/models/from_status/from_status.dart';
 import 'package:hive_example/screens/add_screen/add_screen.dart';
-import 'package:hive_example/screens/home_screen/widgets/empty_show.dart';
-import 'package:hive_example/screens/home_screen/widgets/item_note.dart';
-import 'package:hive_example/screens/home_screen/widgets/text_fild.dart';
+import 'package:hive_example/screens/notes/widgets/empty_show.dart';
+import 'package:hive_example/screens/notes/widgets/item_note.dart';
+import 'package:hive_example/screens/notes/widgets/text_fild.dart';
 import 'package:hive_example/screens/widget/top_button.dart';
 import 'package:hive_example/utils/app_colors.dart';
 import 'package:hive_example/utils/app_images.dart';
@@ -87,20 +87,20 @@ class _HomeScreenState extends State<HomeScreen> {
             15.getH(),
             BlocBuilder<NotesBloc, NotesState>(
               builder: (BuildContext context, NotesState state) {
-                if (state.fromStatus == FromStatus.loading) {
-                  return Center(
-                    child: Text(
-                      state.errorText,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 15.sp,
-                      ),
-                    ),
-                  );
-                }
+                // if (state.fromStatus == FromStatus.error) {
+                //   return Center(
+                //     child: Text(
+                //       state.errorText,
+                //       style: TextStyle(
+                //         color: Colors.white,
+                //         fontSize: 15.sp,
+                //       ),
+                //     ),
+                //   );
+                // }
 
                 if (state.fromStatus == FromStatus.success) {
-                  if (state.allNotes.isEmpty) {
+                  if (state.currentNotes.isEmpty) {
                     return Column(
                       children: [
                         182.getH(),
@@ -113,13 +113,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     return Expanded(
                       child: ListView.builder(
                         padding: EdgeInsets.symmetric(horizontal: 24.we),
-                        itemCount: state.allNotes.length,
+                        itemCount: state.currentNotes.length,
                         itemBuilder: (BuildContext context, int index) {
                           return ItemNoteButton(
-                            isActiveRemove: state.allNotes[index].isRemove,
+                            isActiveRemove: state.currentNotes[index].isRemove,
                             onTab: () async {
-                              if (state.allNotes[index].isRemove &&
-                                  state.allNotes[index].id != null) {
+                              if (state.currentNotes[index].isRemove) {
                                 context.read<NotesBloc>().add(
                                       NotesDeleteEvent(
                                         index: index,
@@ -127,7 +126,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                     );
 
                                 showSearch = false;
-                                setState(() {});
                               } else {
                                 Navigator.push(
                                   context,
@@ -135,7 +133,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                     builder: (context) {
                                       return AddScreen(
                                         isInfo: true,
-                                        personModel: state.allNotes[index],
+                                        personModel: state.currentNotes[index],
+                                        index: index,
                                       );
                                     },
                                   ),
@@ -145,13 +144,13 @@ class _HomeScreenState extends State<HomeScreen> {
                             onLongPress: () {
                               setState(
                                 () {
-                                  state.allNotes[index].isRemove =
-                                      !state.allNotes[index].isRemove;
+                                  state.currentNotes[index].isRemove =
+                                      !state.currentNotes[index].isRemove;
                                 },
                               );
                             },
-                            noteModel: state.allNotes[index],
-                            backgroundColor: state.allNotes[index].color,
+                            noteModel: state.currentNotes[index],
+                            backgroundColor: state.currentNotes[index].color,
                           );
                         },
                       ),
@@ -164,7 +163,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     itemCount: 10,
                     itemBuilder: (BuildContext context, int index) {
                       return Shimmer(
+
                         gradient: const LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
                           colors: [
                             Colors.white,
                             Colors.white10,

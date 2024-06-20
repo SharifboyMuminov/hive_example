@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 
-class NotesModel {
-  int? id;
+class NotesModel extends HiveObject {
+  @HiveField(0)
   String fullName;
+  @HiveField(0)
   String text;
+  @HiveField(0)
   String createDate;
+  @HiveField(1)
   Color color;
   bool isRemove;
 
@@ -14,7 +18,6 @@ class NotesModel {
     required this.text,
     required this.createDate,
     this.isRemove = false,
-    this.id,
   });
 
   static NotesModel defaultModel() {
@@ -27,16 +30,13 @@ class NotesModel {
   }
 
   NotesModel copyWith({
-    String? date,
     String? fullName,
-    int? id,
     String? createDate,
     String? text,
     Color? color,
   }) {
     return NotesModel(
       color: color ?? this.color,
-      id: id ?? this.id,
       fullName: fullName ?? this.fullName,
       text: text ?? this.text,
       createDate: createDate ?? this.createDate,

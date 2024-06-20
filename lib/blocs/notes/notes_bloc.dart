@@ -55,7 +55,7 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
     emit(state.copyWith(fromStatus: FromStatus.loading));
 
     try {
-      String key = notesDataBase.keyAt(notesDeleteEvent.index) as String? ?? "";
+      var key = notesDataBase.keyAt(notesDeleteEvent.index);
 
       notesDataBase.delete(key);
       add(NotesCallEvent());
@@ -89,6 +89,22 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
   Future<void> _updateNote(
       NotesUpdateEvent notesUpdateEvent, Emitter<NotesState> emit) async {
     emit(state.copyWith(fromStatus: FromStatus.loading));
+    emit(state.copyWith(fromStatus: FromStatus.loading));
+
+    try {
+      notesDataBase.putAt(
+        notesUpdateEvent.index,
+        notesUpdateEvent.noteModel,
+      );
+      add(NotesCallEvent());
+    } catch (error) {
+      emit(
+        state.copyWith(
+          fromStatus: FromStatus.error,
+          errorText: error.toString(),
+        ),
+      );
+    }
   }
 
   Future<void> _searchNote(
