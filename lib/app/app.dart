@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:hive/screens/home_screen/home_screen.dart';
+import 'package:hive_example/screens/home_screen/home_screen.dart';
 
 class App extends StatelessWidget {
   const App({super.key});

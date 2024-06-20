@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hive/utils/app_colors.dart';
+import 'package:hive_example/utils/app_colors.dart';
 
 class AppTextStyle {
   // SeoulNamsan

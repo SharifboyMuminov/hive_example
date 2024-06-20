@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:hive/app/app.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_example/app/app.dart';
 import 'package:path_provider/path_provider.dart';
 
 void main(List<String> args) async {
