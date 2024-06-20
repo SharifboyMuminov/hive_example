@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive_example/blocs/notes/notes_bloc.dart';
 import 'package:hive_example/blocs/notes/notes_event.dart';
 import 'package:hive_example/data/local/local_list/local.dart';
-import 'package:hive_example/data/models/notes/note.dart';
+import 'package:hive_example/data/models/notes/notes_model.dart';
 import 'package:hive_example/screens/home_screen/home_screen.dart';
 import 'package:hive_example/utils/app_colors.dart';
 import 'package:hive_example/utils/app_size.dart';
@@ -12,7 +12,7 @@ import 'package:hive_example/utils/app_size.dart';
 class ColorScreen extends StatefulWidget {
   const ColorScreen({super.key, required this.noteModel});
 
-  final NoteModel noteModel;
+  final NotesModel noteModel;
 
   @override
   State<ColorScreen> createState() => _ColorScreenState();
@@ -21,7 +21,7 @@ class ColorScreen extends StatefulWidget {
 class _ColorScreenState extends State<ColorScreen> {
   double sliderValue = 20;
   Color currentColor = myColors.first;
-  late NoteModel noteModel;
+  late NotesModel noteModel;
 
   @override
   void initState() {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class NoteModel {
+class NotesModel {
   int? id;
   String fullName;
   String text;
@@ -9,7 +9,7 @@ class NoteModel {
   Color color;
   bool isRemove;
 
-  NoteModel(
+  NotesModel(
       {required this.date,
       required this.color,
       required this.fullName,
@@ -18,9 +18,9 @@ class NoteModel {
       this.isRemove = false,
       this.id});
 
-  factory NoteModel.fromJson(Map<String, dynamic> json) {
+  factory NotesModel.fromJson(Map<String, dynamic> json) {
     debugPrint(json[NotesConstanse.color].toString());
-    return NoteModel(
+    return NotesModel(
       id: json[NotesConstanse.id] as int? ?? 0,
       fullName: json[NotesConstanse.name] as String? ?? "Null",
       text: json[NotesConstanse.description] as String? ?? "Null",
@@ -52,8 +52,8 @@ class NoteModel {
     };
   }
 
-  static NoteModel defaultModel() {
-    return NoteModel(
+  static NotesModel defaultModel() {
+    return NotesModel(
       date: "",
       fullName: "",
       text: "",
@@ -62,7 +62,7 @@ class NoteModel {
     );
   }
 
-  NoteModel copyWith({
+  NotesModel copyWith({
     String? date,
     String? fullName,
     int? id,
@@ -70,7 +70,7 @@ class NoteModel {
     String? text,
     Color? color,
   }) {
-    return NoteModel(
+    return NotesModel(
       color: color ?? this.color,
       id: id ?? this.id,
       date: date ?? this.date,

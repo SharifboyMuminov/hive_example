@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive_example/blocs/notes/notes_bloc.dart';
 import 'package:hive_example/blocs/notes/notes_event.dart';
-import 'package:hive_example/data/models/notes/note.dart';
+import 'package:hive_example/data/models/notes/notes_model.dart';
 import 'package:hive_example/screens/color/color_screen.dart';
 import 'package:hive_example/screens/widget/top_button.dart';
 import 'package:hive_example/utils/app_colors.dart';
@@ -17,21 +17,21 @@ import 'widget/show_dialog.dart';
 class AddScreen extends StatefulWidget {
   const AddScreen({
     super.key,
-    this.personModul,
+    this.personModel,
     this.isInfo = false,
   });
 
   final bool isInfo;
-  final NoteModel? personModul;
+  final NotesModel? personModel;
 
   @override
   State<AddScreen> createState() => _AddScreenState();
 }
 
 class _AddScreenState extends State<AddScreen> {
-  NoteModel noteModul = NoteModel.defaultModel();
+  NotesModel noteModel = NotesModel.defaultModel();
 
-  bool isSvae = true;
+  bool isSave = true;
   bool isPop = false;
   bool isChane = false;
 
@@ -40,11 +40,11 @@ class _AddScreenState extends State<AddScreen> {
 
   @override
   void initState() {
-    if (widget.personModul != null) {
-      noteModul = widget.personModul!;
-      controllerTitle.text = noteModul.fullName;
+    if (widget.personModel != null) {
+      noteModel = widget.personModel!;
+      controllerTitle.text = noteModel.fullName;
 
-      controllerSubTitle.text = noteModul.text;
+      controllerSubTitle.text = noteModel.text;
     }
     super.initState();
   }
@@ -69,12 +69,12 @@ class _AddScreenState extends State<AddScreen> {
                 children: [
                   ButtonTop(
                     icon: AppImages.arrowBack,
-                    onTab: _testMetodArrow,
+                    onTab: _testMethodArrow,
                   ),
                   const Spacer(),
                   ButtonTop(
                     icon: AppImages.save,
-                    onTab: _testMetodArrow,
+                    onTab: _testMethodArrow,
                   ),
                 ],
               ),
@@ -168,30 +168,30 @@ class _AddScreenState extends State<AddScreen> {
     );
   }
 
-  _testMetodArrow() {
+  _testMethodArrow() {
     String title = controllerTitle.text;
     String subTitle = controllerSubTitle.text;
     if (title.isNotEmpty && subTitle.isNotEmpty) {
-      noteModul = noteModul.copyWith(
+      noteModel = noteModel.copyWith(
         fullName: controllerTitle.text,
         text: controllerSubTitle.text,
         date: DateTime.now().toString(),
       );
 
-      if (widget.personModul != null) {
-        if (title == widget.personModul!.fullName &&
-            subTitle == widget.personModul!.text) {
+      if (widget.personModel != null) {
+        if (title == widget.personModel!.fullName &&
+            subTitle == widget.personModel!.text) {
           Navigator.pop(context);
         } else {
           _myShowDialog(onTabSave: () {
-            noteModul.copyWith(
-              id: widget.personModul!.id,
+            noteModel.copyWith(
+              id: widget.personModel!.id,
               fullName: title,
               text: subTitle,
             );
             context
                 .read<NotesBloc>()
-                .add(NotesUpdateEvent(noteModel: noteModul));
+                .add(NotesUpdateEvent(noteModel: noteModel));
             muySnackBar(context, text: "Malumot ynagilandi :)");
             Navigator.pop(context);
             Navigator.pop(context);
@@ -204,7 +204,7 @@ class _AddScreenState extends State<AddScreen> {
             MaterialPageRoute(
               builder: (context) {
                 return ColorScreen(
-                  noteModel: noteModul,
+                  noteModel: noteModel,
                 );
               },
             ),

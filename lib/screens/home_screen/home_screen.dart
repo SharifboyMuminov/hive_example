@@ -132,7 +132,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     builder: (context) {
                                       return AddScreen(
                                         isInfo: true,
-                                        personModul: state.allNotes[index],
+                                        personModel: state.allNotes[index],
                                       );
                                     },
                                   ),

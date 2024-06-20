@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:hive_example/data/models/notes/note.dart';
+import 'package:hive_example/data/models/notes/notes_model.dart';
 import 'package:hive_example/utils/app_images.dart';
 import 'package:hive_example/utils/app_size.dart';
 
@@ -15,7 +15,7 @@ class ItemNoteButton extends StatelessWidget {
     required this.backgroundColor,
   });
 
-  final NoteModel noteModel;
+  final NotesModel noteModel;
   final bool isActiveRemove;
   final VoidCallback onTab;
   final VoidCallback onLongPress;

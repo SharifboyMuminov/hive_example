@@ -1,12 +1,10 @@
-
-
 import 'package:equatable/equatable.dart';
-import 'package:hive_example/data/models/notes/note.dart';
+import 'package:hive_example/data/models/notes/notes_model.dart';
 
 abstract class NotesEvent extends Equatable {}
 
 class NotesDeleteEvent extends NotesEvent {
-  final NoteModel noteModel;
+  final NotesModel noteModel;
 
   NotesDeleteEvent({required this.noteModel});
 
@@ -15,7 +13,7 @@ class NotesDeleteEvent extends NotesEvent {
 }
 
 class NotesInsertEvent extends NotesEvent {
-  final NoteModel noteModel;
+  final NotesModel noteModel;
 
   NotesInsertEvent({required this.noteModel});
 
@@ -29,7 +27,7 @@ class NotesCallEvent extends NotesEvent {
 }
 
 class NotesUpdateEvent extends NotesEvent {
-  final NoteModel noteModel;
+  final NotesModel noteModel;
 
   NotesUpdateEvent({required this.noteModel});
 

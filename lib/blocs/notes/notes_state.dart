@@ -1,13 +1,13 @@
 import 'package:equatable/equatable.dart';
 import 'package:hive_example/data/models/from_status/from_status.dart';
-import 'package:hive_example/data/models/notes/note.dart';
+import 'package:hive_example/data/models/notes/notes_model.dart';
 
 class NotesState extends Equatable {
   final FromStatus fromStatus;
   final String errorText;
   final String statusMessage;
-  final List<NoteModel> currentNotes;
-  final List<NoteModel> allNotes;
+  final List<NotesModel> currentNotes;
+  final List<NotesModel> allNotes;
 
   const NotesState({
     required this.allNotes,
@@ -21,8 +21,8 @@ class NotesState extends Equatable {
     FromStatus? fromStatus,
     String? errorText,
     String? statusMessage,
-    List<NoteModel>? currentNotes,
-    List<NoteModel>? allNotes,
+    List<NotesModel>? currentNotes,
+    List<NotesModel>? allNotes,
   }) {
     return NotesState(
       allNotes: allNotes ?? this.allNotes,
