@@ -1,25 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:hive_example/data/models/notes/notes_model.dart';
-import 'package:hive_example/utils/app_images.dart';
 import 'package:hive_example/utils/app_size.dart';
 
 class ItemNoteButton extends StatelessWidget {
   const ItemNoteButton({
     super.key,
-    required this.isActiveRemove,
     required this.onTab,
     required this.onLongPress,
     required this.noteModel,
-    required this.backgroundColor,
   });
 
   final NotesModel noteModel;
-  final bool isActiveRemove;
   final VoidCallback onTab;
   final VoidCallback onLongPress;
-  final Color backgroundColor;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +21,7 @@ class ItemNoteButton extends StatelessWidget {
       margin: EdgeInsets.symmetric(vertical: 13.he),
       width: double.infinity,
       decoration: BoxDecoration(
-        color: isActiveRemove ? Colors.red : backgroundColor,
+        color: noteModel.color,
         borderRadius: BorderRadius.circular(10.r),
       ),
       child: TextButton(
@@ -39,31 +33,29 @@ class ItemNoteButton extends StatelessWidget {
         ),
         onLongPress: onLongPress,
         onPressed: onTab,
-        child: isActiveRemove
-            ? SvgPicture.asset(AppImages.remove)
-            : Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    noteModel.fullName,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 25.sp,
-                    ),
-                  ),
-                  10.getH(),
-                  Align(
-                    alignment: Alignment.bottomRight,
-                    child: Text(
-                      noteModel.createDate,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 14.sp,
-                      ),
-                    ),
-                  ),
-                ],
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              noteModel.fullName,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 25.sp,
               ),
+            ),
+            10.getH(),
+            Align(
+              alignment: Alignment.bottomRight,
+              child: Text(
+                noteModel.createDate,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 14.sp,
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

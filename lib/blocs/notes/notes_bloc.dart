@@ -108,5 +108,17 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
   }
 
   Future<void> _searchNote(
-      NotesSearchEvent notesSearchEvent, Emitter<NotesState> emit) async {}
+      NotesSearchEvent notesSearchEvent, Emitter<NotesState> emit) async {
+    if (notesSearchEvent.title.isNotEmpty) {
+      emit(state.copyWith(
+        currentNotes: state.allNotes.where((NotesModel notesModel) {
+          return notesModel.fullName.toLowerCase().contains(
+                notesSearchEvent.title.toLowerCase(),
+              );
+        }).toList(),
+      ));
+    } else {
+      add(NotesCallEvent());
+    }
+  }
 }

@@ -7,6 +7,7 @@ import 'package:hive_example/blocs/notes/notes_event.dart';
 import 'package:hive_example/blocs/notes/notes_state.dart';
 import 'package:hive_example/data/models/from_status/from_status.dart';
 import 'package:hive_example/screens/add_screen/add_screen.dart';
+import 'package:hive_example/screens/dialogs/my_show_dialog.dart';
 import 'package:hive_example/screens/notes/widgets/empty_show.dart';
 import 'package:hive_example/screens/notes/widgets/item_note.dart';
 import 'package:hive_example/screens/notes/widgets/text_fild.dart';
@@ -87,17 +88,17 @@ class _HomeScreenState extends State<HomeScreen> {
             15.getH(),
             BlocBuilder<NotesBloc, NotesState>(
               builder: (BuildContext context, NotesState state) {
-                // if (state.fromStatus == FromStatus.error) {
-                //   return Center(
-                //     child: Text(
-                //       state.errorText,
-                //       style: TextStyle(
-                //         color: Colors.white,
-                //         fontSize: 15.sp,
-                //       ),
-                //     ),
-                //   );
-                // }
+                if (state.fromStatus == FromStatus.error) {
+                  return Center(
+                    child: Text(
+                      state.errorText,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 15.sp,
+                      ),
+                    ),
+                  );
+                }
 
                 if (state.fromStatus == FromStatus.success) {
                   if (state.currentNotes.isEmpty) {
@@ -116,41 +117,41 @@ class _HomeScreenState extends State<HomeScreen> {
                         itemCount: state.currentNotes.length,
                         itemBuilder: (BuildContext context, int index) {
                           return ItemNoteButton(
-                            isActiveRemove: state.currentNotes[index].isRemove,
-                            onTab: () async {
-                              if (state.currentNotes[index].isRemove) {
-                                context.read<NotesBloc>().add(
-                                      NotesDeleteEvent(
-                                        index: index,
-                                      ),
+                            onTab: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) {
+                                    return AddScreen(
+                                      isInfo: true,
+                                      personModel: state.currentNotes[index],
+                                      index: index,
                                     );
-
-                                showSearch = false;
-                              } else {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) {
-                                      return AddScreen(
-                                        isInfo: true,
-                                        personModel: state.currentNotes[index],
-                                        index: index,
-                                      );
-                                    },
-                                  ),
-                                );
-                              }
+                                  },
+                                ),
+                              );
                             },
                             onLongPress: () {
-                              setState(
-                                () {
-                                  state.currentNotes[index].isRemove =
-                                      !state.currentNotes[index].isRemove;
+                              showMyDialog(
+                                titleSaveButton: "Ok",
+                                title: "Do you want to delete the information?",
+                                onTabSave: () {
+                                  showSearch = false;
+
+                                  context.read<NotesBloc>().add(
+                                        NotesDeleteEvent(
+                                          index: index,
+                                        ),
+                                      );
+                                  Navigator.pop(context);
+                                },
+                                context: context,
+                                onTabExit: () {
+                                  Navigator.pop(context);
                                 },
                               );
                             },
                             noteModel: state.currentNotes[index],
-                            backgroundColor: state.currentNotes[index].color,
                           );
                         },
                       ),
@@ -163,7 +164,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     itemCount: 10,
                     itemBuilder: (BuildContext context, int index) {
                       return Shimmer(
-
                         gradient: const LinearGradient(
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,

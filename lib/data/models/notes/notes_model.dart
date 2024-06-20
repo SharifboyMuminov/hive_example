@@ -10,14 +10,12 @@ class NotesModel extends HiveObject {
   String createDate;
   @HiveField(1)
   Color color;
-  bool isRemove;
 
   NotesModel({
     required this.color,
     required this.fullName,
     required this.text,
     required this.createDate,
-    this.isRemove = false,
   });
 
   static NotesModel defaultModel() {

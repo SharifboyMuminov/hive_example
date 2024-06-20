@@ -7,15 +7,18 @@ import 'package:hive_example/utils/app_images.dart';
 import 'package:hive_example/utils/app_size.dart';
 
 class AlertView extends StatelessWidget {
-  const AlertView(
-      {super.key,
-      required this.onTabSave,
-      required this.onTabDiscard,
-      required this.title});
+  const AlertView({
+    super.key,
+    required this.onTabSave,
+    required this.onTabDiscard,
+    required this.title,
+    this.titleSaveButton = "Save",
+  });
 
   final VoidCallback onTabSave;
   final VoidCallback onTabDiscard;
   final String title;
+  final String titleSaveButton;
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +49,7 @@ class AlertView extends StatelessWidget {
                   onTab: onTabDiscard,
                   backgroundColor: AppColors.c_FF0000),
               DialogButton(
-                title: 'Save',
+                title: titleSaveButton,
                 onTab: onTabSave,
                 backgroundColor: AppColors.c_30BE71,
               ),

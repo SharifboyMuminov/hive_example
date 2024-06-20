@@ -165,7 +165,7 @@ class _AddScreenState extends State<AddScreen> {
             subTitle == widget.personModel!.text) {
           Navigator.pop(context);
         } else {
-          myShowDialog(
+          showMyDialog(
               context: context,
               onTabSave: () {
                 noteModel.copyWith(
@@ -181,10 +181,14 @@ class _AddScreenState extends State<AddScreen> {
                 muySnackBar(context, text: "Malumot ynagilandi :)");
                 Navigator.pop(context);
                 Navigator.pop(context);
+              },
+              onTabExit: () {
+                Navigator.pop(context);
+                Navigator.pop(context);
               });
         }
       } else {
-        myShowDialog(
+        showMyDialog(
             context: context,
             onTabSave: () {
               Navigator.push(
@@ -197,6 +201,10 @@ class _AddScreenState extends State<AddScreen> {
                   },
                 ),
               );
+            },
+            onTabExit: () {
+              Navigator.pop(context);
+              Navigator.pop(context);
             });
       }
     } else {
