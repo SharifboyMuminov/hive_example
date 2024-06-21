@@ -4,12 +4,12 @@ import 'package:hive_example/data/models/notes/notes_model.dart';
 abstract class NotesEvent extends Equatable {}
 
 class NotesDeleteEvent extends NotesEvent {
-  final int index;
+  final NotesModel notesModel;
 
-  NotesDeleteEvent({required this.index});
+  NotesDeleteEvent({required this.notesModel});
 
   @override
-  List<Object?> get props => [index];
+  List<Object?> get props => [notesModel];
 }
 
 class NotesInsertEvent extends NotesEvent {
@@ -27,13 +27,16 @@ class NotesCallEvent extends NotesEvent {
 }
 
 class NotesUpdateEvent extends NotesEvent {
-  final NotesModel noteModel;
-  final int index;
+  final NotesModel newNotesModel;
+  final NotesModel confirmNotesModel;
 
-  NotesUpdateEvent({required this.noteModel, required this.index});
+  NotesUpdateEvent({
+    required this.confirmNotesModel,
+    required this.newNotesModel,
+  });
 
   @override
-  List<Object?> get props => [noteModel, index];
+  List<Object?> get props => [confirmNotesModel, newNotesModel];
 }
 
 class NotesSearchEvent extends NotesEvent {

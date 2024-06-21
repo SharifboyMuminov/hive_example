@@ -124,8 +124,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   builder: (context) {
                                     return AddScreen(
                                       isInfo: true,
-                                      personModel: state.currentNotes[index],
-                                      index: index,
+                                      notesModel: state.currentNotes[index],
                                     );
                                   },
                                 ),
@@ -136,11 +135,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                 titleSaveButton: "Ok",
                                 title: "Do you want to delete the information?",
                                 onTabSave: () {
-                                  showSearch = false;
+                                  setState(() {
+                                    showSearch = false;
+                                  });
 
                                   context.read<NotesBloc>().add(
                                         NotesDeleteEvent(
-                                          index: index,
+                                          notesModel: state.currentNotes[index],
                                         ),
                                       );
                                   Navigator.pop(context);

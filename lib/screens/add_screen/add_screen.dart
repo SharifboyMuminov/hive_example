@@ -16,14 +16,12 @@ import 'package:hive_example/utils/app_size.dart';
 class AddScreen extends StatefulWidget {
   const AddScreen({
     super.key,
-    this.personModel,
+    this.notesModel,
     this.isInfo = false,
-    this.index,
   });
 
   final bool isInfo;
-  final NotesModel? personModel;
-  final int? index;
+  final NotesModel? notesModel;
 
   @override
   State<AddScreen> createState() => _AddScreenState();
@@ -41,8 +39,8 @@ class _AddScreenState extends State<AddScreen> {
 
   @override
   void initState() {
-    if (widget.personModel != null) {
-      noteModel = widget.personModel!;
+    if (widget.notesModel != null) {
+      noteModel = widget.notesModel!;
       controllerTitle.text = noteModel.fullName;
 
       controllerSubTitle.text = noteModel.text;
@@ -160,9 +158,9 @@ class _AddScreenState extends State<AddScreen> {
         text: controllerSubTitle.text,
       );
 
-      if (widget.personModel != null) {
-        if (title == widget.personModel!.fullName &&
-            subTitle == widget.personModel!.text) {
+      if (widget.notesModel != null) {
+        if (title == widget.notesModel!.fullName &&
+            subTitle == widget.notesModel!.text) {
           Navigator.pop(context);
         } else {
           showMyDialog(
@@ -174,11 +172,11 @@ class _AddScreenState extends State<AddScreen> {
                 );
                 context.read<NotesBloc>().add(
                       NotesUpdateEvent(
-                        noteModel: noteModel,
-                        index: widget.index ?? 0,
+                        newNotesModel: noteModel,
+                        confirmNotesModel: widget.notesModel!,
                       ),
                     );
-                muySnackBar(context, text: "Malumot ynagilandi :)");
+                muySnackBar(context, text: "Malumot yangilandi :)");
                 Navigator.pop(context);
                 Navigator.pop(context);
               },

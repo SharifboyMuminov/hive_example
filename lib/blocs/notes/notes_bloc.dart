@@ -36,9 +36,10 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
       List<NotesModel> notesModels = notesDataBase.values.toList().cast();
       emit(
         state.copyWith(
-            fromStatus: FromStatus.success,
-            currentNotes: notesModels,
-            allNotes: notesModels),
+          fromStatus: FromStatus.success,
+          currentNotes: notesModels,
+          allNotes: notesModels,
+        ),
       );
     } catch (error) {
       emit(
@@ -55,7 +56,11 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
     emit(state.copyWith(fromStatus: FromStatus.loading));
 
     try {
-      var key = notesDataBase.keyAt(notesDeleteEvent.index);
+      var key = notesDataBase.keyAt(
+        state.allNotes.indexOf(
+          notesDeleteEvent.notesModel,
+        ),
+      );
 
       notesDataBase.delete(key);
       add(NotesCallEvent());
@@ -92,9 +97,14 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
     emit(state.copyWith(fromStatus: FromStatus.loading));
 
     try {
-      notesDataBase.putAt(
-        notesUpdateEvent.index,
-        notesUpdateEvent.noteModel,
+      var key = notesDataBase.keyAt(
+        state.allNotes.indexOf(
+          notesUpdateEvent.confirmNotesModel,
+        ),
+      );
+      notesDataBase.put(
+        key,
+        notesUpdateEvent.newNotesModel,
       );
       add(NotesCallEvent());
     } catch (error) {

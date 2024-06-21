@@ -38,6 +38,8 @@ class ItemNoteButton extends StatelessWidget {
           children: [
             Text(
               noteModel.fullName,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 25.sp,
